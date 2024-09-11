@@ -1,4 +1,9 @@
+import 'package:fina/View/begin_page.dart';
+import 'package:fina/View/detail_infomation.dart';
+import 'package:fina/View/news_detail_page.dart';
+import 'package:fina/View/test_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,13 +14,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home:  BeginPage(),
     );
   }
 }
