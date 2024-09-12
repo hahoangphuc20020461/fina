@@ -1,12 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-
+import 'package:fina/Model/feed_model.dart';
 import 'package:fina/controller/getx_controller.dart';
 import 'package:fina/controller/getx_controller2.dart';
 import 'package:fina/utils/Drop_button.dart';
 import 'package:fina/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:get/get_connect/sockets/src/socket_notifier.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeSecondScreen extends StatefulWidget {
@@ -127,31 +127,30 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(50),
                           topRight: Radius.circular(50))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 30),
-                          child: Row(
+                  child: ListView(children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Column(
+                        children: [
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              DropdownStyledExample(),
+                              PopupMenu(),
                             ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        ListDay(),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        ListFeed()
-                      ],
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ListDay(),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ListFeed()
+                        ],
+                      ),
                     ),
-                  ),
+                  ]),
                 ))
               ],
             ),
@@ -164,7 +163,6 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
   Widget ListDay() {
     final timeSeries = stockController.stockData.value!.timeSeries;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
       height: 160,
       child: ListView.builder(
         shrinkWrap: true,
@@ -201,7 +199,7 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
   Widget ListFeed() {
     var a = feedController.getfeedData().feedList;
     return Container(
-      height: MediaQuery.of(context).size.height * 0.45,
+      height: MediaQuery.of(context).size.height * 0.4,
       padding: EdgeInsets.only(top: 20, bottom: 5),
       decoration: BoxDecoration(
           color: dividerLine.withAlpha(150),
