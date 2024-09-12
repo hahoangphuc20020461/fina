@@ -1,18 +1,20 @@
 class MetaData {
-  String information;
-  String symbol;
-  String lastRefreshed;
-  String interval;
-  String outputSize;
-  String timeZone;
+
+  final String? information;
+  final String? symbol;
+  final String? lastRefreshed;
+  final String? interval;
+  final String? outputSize;
+  final String? timeZone;
 
   MetaData({
-    required this.information,
-    required this.symbol,
-    required this.lastRefreshed,
-    required this.interval,
-    required this.outputSize,
-    required this.timeZone,
+    this.information,
+    this.symbol,
+    this.lastRefreshed,
+    this.interval,
+    this.outputSize,
+    this.timeZone,
+
   });
 
   factory MetaData.fromJson(Map<String, dynamic> json) {
@@ -26,3 +28,4 @@ class MetaData {
     );
   }
 }
+

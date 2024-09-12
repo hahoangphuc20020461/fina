@@ -2,10 +2,11 @@ import 'package:fina/Model/metadata_model.dart';
 import 'package:fina/Model/timeseries_model.dart';
 
 class StockData {
-  MetaData metaData;
-  Map<String, TimeSeriesData> timeSeries;
+  final MetaData? metaData;
+  final Map<String, TimeSeriesData>? timeSeries;
 
-  StockData({required this.metaData, required this.timeSeries});
+  StockData({this.metaData, this.timeSeries});
+
 
   factory StockData.fromJson(Map<String, dynamic> json) {
     return StockData(
@@ -15,4 +16,6 @@ class StockData {
       ),
     );
   }
+
 }
+
