@@ -1,4 +1,5 @@
-import 'package:fina/utils/color.dart';
+
+import 'package:fina/Config/color.dart';
 import 'package:flutter/material.dart';
 
 class DropdownStyledExample extends StatefulWidget {

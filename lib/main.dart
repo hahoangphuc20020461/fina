@@ -1,7 +1,7 @@
-import 'package:fina/screen/home_screen.dart';
-import 'package:fina/screen/home_second_screen.dart';
-import 'package:fina/screen/stock_screen.dart';
-import 'package:fina/utils/Drop_button.dart';
+
+import 'package:fina/View/home_second_screen.dart';
+import 'package:fina/View/stock_screen.dart';
+import 'package:fina/View/Widget/Drop_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:fina/Config/color.dart';
+import 'package:fina/View/detail_infomation.dart';
+import 'package:fina/View/news_detail_page.dart';
 import 'package:fina/controller/getx_controller.dart';
-import 'package:fina/controller/getx_controller2.dart';
-import 'package:fina/utils/Drop_button.dart';
-import 'package:fina/utils/color.dart';
+import 'package:fina/View/Widget/Drop_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,8 +18,13 @@ class HomeSecondScreen extends StatefulWidget {
 }
 
 class _HomeSecondScreenState extends State<HomeSecondScreen> {
-  final StockController stockController = Get.put(StockController());
-  final FeedController feedController = Get.put(FeedController());
+  late APIController apiController = Get.put(APIController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -162,7 +168,7 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
   }
 
   Widget ListDay() {
-    final timeSeries = stockController.stockData.value!.timeSeries;
+    final timeSeries = apiController.stockData.value!.timeSeries;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10),
       height: 160,
@@ -177,6 +183,12 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
           return GestureDetector(
             onTap: () {
               print(index.toString());
+              Get.to(() => DetailPage(
+                    lowPrice: data.low,
+                    highPrice: data.high,
+                    openPrice: data.open,
+                    closePrice: data.close,
+                  ));
             },
             child: Container(
               width: 104,
@@ -199,7 +211,7 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
   }
 
   Widget ListFeed() {
-    var a = feedController.getfeedData().feedList;
+    var newsData = apiController.getfeedData().feedList;
     return Container(
       height: MediaQuery.of(context).size.height * 0.45,
       padding: EdgeInsets.only(top: 20, bottom: 5),
@@ -209,11 +221,20 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       child: ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: feedController.getfeedData().feedList.length,
+        itemCount: apiController.getfeedData().feedList.length,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
               print(index.toString());
+              Get.to(() => NewsDetailPage(
+                  timePublished: newsData[index].timePublished!,
+                  title: newsData[index].title!,
+                  bannerImage: newsData[index].bannerImage!,
+                  publisher: newsData[index].authors![index],
+                  summary: newsData[index].summary!,
+                  url: newsData[index].url!,
+                  setimentScore: newsData[index].overallSentimentScore!,
+                  setimentLabel: newsData[index].overallSentimentLabel!));
             },
             child: Container(
               width: double.infinity,
@@ -228,8 +249,8 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                 ],
               ),
               child: ItemListFeed(
-                title: a[index].title!,
-                image: a[index].bannerImage!,
+                title: newsData[index].title!,
+                image: newsData[index].bannerImage!,
               ),
             ),
           );
