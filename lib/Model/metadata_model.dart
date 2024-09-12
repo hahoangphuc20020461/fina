@@ -1,4 +1,5 @@
 class MetaData {
+
   final String? information;
   final String? symbol;
   final String? lastRefreshed;
@@ -13,6 +14,7 @@ class MetaData {
     this.interval,
     this.outputSize,
     this.timeZone,
+
   });
 
   factory MetaData.fromJson(Map<String, dynamic> json) {
@@ -26,3 +28,4 @@ class MetaData {
     );
   }
 }
+

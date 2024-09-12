@@ -7,6 +7,7 @@ class StockData {
 
   StockData({this.metaData, this.timeSeries});
 
+
   factory StockData.fromJson(Map<String, dynamic> json) {
     return StockData(
       metaData: MetaData.fromJson(json['Meta Data']),
@@ -15,4 +16,6 @@ class StockData {
       ),
     );
   }
+
 }
+
