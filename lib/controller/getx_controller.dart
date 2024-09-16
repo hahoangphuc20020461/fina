@@ -1,3 +1,4 @@
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:fina/Model/feed_model.dart';
@@ -27,12 +28,14 @@ class StockController extends GetxController {
   var feedData = Rxn<FeedData>();
   FeedData getfeedData() {
     return feedData.value!;
+
   }
 
   @override
   void onInit() {
     super.onInit();
     fetchStockData();
+
     fetchfeedData();
     fetchStockWeekData();
     fetchStockMonthData();
@@ -76,6 +79,7 @@ class StockController extends GetxController {
       if (response.statusCode == 200) {
         var jsonstring = jsonDecode(response.body);
         stockDayData.value = StockDayData.fromJson(jsonstring);
+
         // Cập nhật dữ liệu
       } else {
         throw Exception('Failed to load stock data');
@@ -86,6 +90,7 @@ class StockController extends GetxController {
       isLoading(false);
     }
   }
+
 
   Future<void> fetchStockWeekData() async {
     try {

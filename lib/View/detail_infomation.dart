@@ -1,14 +1,17 @@
-import 'dart:ui';
 
 import 'package:fina/Config/color.dart';
+import 'package:fina/View/home_second_screen.dart';
 import 'package:fina/View/news_detail_page.dart';
-import 'package:fina/utils/color.dart';
+import 'package:fina/controller/animation_controller.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+
 import 'package:vertical_barchart/extension/expandedSection.dart';
 import 'package:vertical_barchart/vertical-barchart.dart';
 import 'package:vertical_barchart/vertical-barchartmodel.dart';
@@ -16,14 +19,27 @@ import 'package:vertical_barchart/vertical-legend.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({super.key});
+
+  const DetailPage(
+      {super.key,
+      required this.lowPrice,
+      required this.highPrice,
+      required this.openPrice,
+      required this.closePrice});
+  final String lowPrice;
+  final String highPrice;
+  final String openPrice;
+  final String closePrice;
+
 
   @override
   State<DetailPage> createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
-  Color themColor = Color(0xFF02C39A);
+
+  AnimationControllerX animationControllerX = Get.put(AnimationControllerX());
+
   @override
   Widget build(BuildContext context) {
     List<VBarChartModel> bardata = [
@@ -32,14 +48,18 @@ class _DetailPageState extends State<DetailPage> {
         label: "Low",
         colors: [themColor, themColor],
         jumlah: 203.33,
-        tooltip: "203.3300",
+
+        tooltip: widget.lowPrice,
+
       ),
       VBarChartModel(
         index: 1,
         label: "High",
         colors: [themColor, themColor],
         jumlah: 203.37,
-        tooltip: "203.3700",
+
+        tooltip: widget.highPrice,
+
       ),
     ];
     // TODO: implement build
@@ -48,7 +68,8 @@ class _DetailPageState extends State<DetailPage> {
       //   title: Text('Detail'),
       // ),
       backgroundColor: themColor,
-      // black_color,
+
+
       //   body: SingleChildScrollView(
       //     child: Column(
       //       children: [
@@ -101,16 +122,22 @@ class _DetailPageState extends State<DetailPage> {
               child: SafeArea(
                 child: Row(
                   children: [
-                    IconButton(
-                        onPressed: () {
-                          Get.to(() => NewsDetailPage(),
-                              transition: Transition.circularReveal);
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                          size: 20,
-                        )),
+
+                    GetBuilder(
+                      builder: (GetxController controller) {
+                        return IconButton(
+                            onPressed: () {
+                              Get.off(() => HomeSecondScreen(),
+                                  transition: Transition.leftToRightWithFade);
+                            },
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                              size: 30,
+                            ));
+                      },
+                    ),
+
                     Spacer(),
                     Text(
                       'Detail',
@@ -176,7 +203,9 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                     Padding(padding: EdgeInsets.all(20)),
                     Text(
-                      '10',
+
+                      widget.openPrice,
+
                       style: GoogleFonts.poppins(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
@@ -196,7 +225,9 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                     Padding(padding: EdgeInsets.all(20)),
                     Text(
-                      '10',
+
+                      widget.closePrice,
+
                       style: GoogleFonts.poppins(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,

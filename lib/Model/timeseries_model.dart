@@ -1,4 +1,5 @@
 class TimeSeriesData {
+
   String open;
   String high;
   String low;
@@ -11,6 +12,7 @@ class TimeSeriesData {
     required this.low,
     required this.close,
     required this.volume,
+
   });
 
   factory TimeSeriesData.fromJson(Map<String, dynamic> json) {
