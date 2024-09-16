@@ -1,7 +1,9 @@
 
+import 'package:fina/View/begin_page.dart';
 import 'package:fina/View/home_second_screen.dart';
 import 'package:fina/View/stock_screen.dart';
 import 'package:fina/View/Widget/Drop_button.dart';
+import 'package:fina/View/test_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Stock App',
-      home: HomeSecondScreen(),
+      home: BeginPage(),
       debugShowCheckedModeBanner: false,
     );
   }

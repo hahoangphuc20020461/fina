@@ -13,21 +13,21 @@ class APIController extends GetxController {
   var stockData = Rxn<StockData>();
   var metaData = Rxn<MetaData>();
   var feedData = Rxn<FeedData>();
-  // var topicData = Rxn<Topics>();
-  // var tickerData = Rxn<TickerSentiments>();
+  var topicData = Rxn<Topics>();
+  var tickerData = Rxn<TickerSentiments>();
   // Rxn quản lý dữ liệu thời gian thực
   MetaData getMetaData() {
-    return metaData.value!;
+    return metaData.value ?? MetaData();
   }
   FeedData getfeedData() {
-    return feedData.value!;
+    return feedData.value ?? FeedData(feedList: []);
   }
-  // Topics getTopicData() {
-  //   return topicData.value!;
-  // }
-  // TickerSentiments getTickerData() {
-  //   return tickerData.value!;
-  // }
+  Topics getTopicData() {
+    return topicData.value!;
+  }
+  TickerSentiments getTickerData() {
+    return tickerData.value!;
+  }
 
   @override
   void onInit() {
@@ -39,8 +39,8 @@ class APIController extends GetxController {
   Future<void> fetchfeedData() async {
     try {
       isLoading(true);
-      //final response = await http.get(Uri.parse(url2));
-      final response = await http.get(Uri.parse(apiDemo2));
+      final response = await http.get(Uri.parse(url2));
+      //final response = await http.get(Uri.parse(apiDemo2));
       if (response.statusCode == 200) {
         var jsonstring = jsonDecode(response.body);
         feedData.value = FeedData.fromJson(jsonstring);
@@ -57,8 +57,8 @@ class APIController extends GetxController {
   Future<void> fetchStockData() async {
     try {
       isLoading(true);
-      //final response = await http.get(Uri.parse(url));
-      final response = await http.get(Uri.parse(apiDemo1));
+      final response = await http.get(Uri.parse(url));
+      //final response = await http.get(Uri.parse(apiDemo1));
       if (response.statusCode == 200) {
         var jsonstring = jsonDecode(response.body);
         stockData.value = StockData.fromJson(jsonstring);

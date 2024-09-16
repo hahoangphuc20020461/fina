@@ -1,6 +1,12 @@
 import 'package:fina/Config/color.dart';
+import 'package:fina/Model/ticker_sentiments_model.dart';
+import 'package:fina/Model/topics_model.dart';
+import 'package:fina/View/home_second_screen.dart';
+import 'package:fina/controller/animation_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
@@ -14,7 +20,9 @@ class NewsDetailPage extends StatefulWidget {
       required this.summary,
       required this.url,
       required this.setimentScore,
-      required this.setimentLabel});
+      required this.setimentLabel,
+      required this.topic,
+      required this.tickerSentiments});
   final String timePublished;
   final String title;
   final String bannerImage;
@@ -23,12 +31,15 @@ class NewsDetailPage extends StatefulWidget {
   final String url;
   final String setimentScore;
   final String setimentLabel;
+  final List<Topics> topic;
+  final List<TickerSentiments> tickerSentiments;
 
   @override
   State<NewsDetailPage> createState() => _NewsDetailPageState();
 }
 
 class _NewsDetailPageState extends State<NewsDetailPage> {
+  AnimationControllerX animationControllerX = Get.put(AnimationControllerX());
   @override
   Widget build(BuildContext context) {
     DateTime dateTime = DateTime.parse(widget.timePublished.substring(0, 8) +
@@ -41,13 +52,21 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
           Row(
             children: [
               SafeArea(
-                  child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: themColor,
-                        size: 20,
-                      ))),
+                child: GetBuilder(
+                  builder: (GetxController controller) {
+                    return IconButton(
+                        onPressed: () {
+                          Get.off(() => HomeSecondScreen(),
+                              transition: Transition.leftToRightWithFade);
+                        },
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                          size: 30,
+                        ));
+                  },
+                ),
+              ),
             ],
           ),
           Container(
@@ -56,7 +75,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
             width: MediaQuery.of(context).size.width * 0.8,
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/finance-48.png'), fit: BoxFit.fill),
+                  image: NetworkImage(widget.bannerImage), fit: BoxFit.fill),
               borderRadius: BorderRadius.circular(30),
             ),
           ),
@@ -174,6 +193,25 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
               ],
             ),
           ),
+          Padding(padding: EdgeInsets.all(8)),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(columns: [
+                DataColumn(label: Text('Ticker')),
+              DataColumn(label: Text('Relevance Score')),
+              DataColumn(label: Text('Sentiment Score')),
+              DataColumn(label: Text('Sentiment Label')),
+              ], rows: widget.tickerSentiments.map((item) {
+              return DataRow(
+                cells: [
+                  DataCell(Text(item.ticker!)),
+                  DataCell(Text(item.relevanceScore!)),
+                  DataCell(Text(item.tickerSentimentsScore!)),
+                  DataCell(Text(item.tickerSentimentsLabel!)),
+                ],
+              );
+            }).toList(),),
+          ),
           Divider(
             thickness: 1,
           ),
@@ -193,18 +231,18 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
           ),
           Expanded(
             child: ListView.builder(
-                itemCount: 3,
+                itemCount: widget.topic.length,
                 itemBuilder: (BuildContext, int index) {
                   return ListTile(
                     title: Text(
-                      'Titile',
+                      'Topic: ${widget.topic[index].topic}',
                       style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                           color: Colors.black87),
                     ),
                     subtitle: Text(
-                      'sub title',
+                      'Relevance Score: ${widget.topic[index].relevanceScore}',
                       style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,

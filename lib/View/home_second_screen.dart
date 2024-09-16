@@ -1,13 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:fina/Config/color.dart';
+import 'package:fina/View/Widget/Drop_button.dart';
 import 'package:fina/View/detail_infomation.dart';
 import 'package:fina/View/news_detail_page.dart';
 import 'package:fina/controller/getx_controller.dart';
-import 'package:fina/View/Widget/Drop_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeSecondScreen extends StatefulWidget {
@@ -27,7 +26,7 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
+    
       return Scaffold(
         body: Container(
           color: themColor,
@@ -150,11 +149,25 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        ListDay(),
+                        Obx(() {
+                          if(!apiController.isLoading.value) {
+                           return Center(child: CircularProgressIndicator());
+                          } else {
+                           return ListDay();
+                          }
+                        } ),
+                        
                         SizedBox(
                           height: 10,
                         ),
-                        ListFeed()
+                        Obx(() {
+                          if(!apiController.isLoading.value) {
+                           return Center(child: CircularProgressIndicator());
+                          } else {
+                           return ListFeed();
+                          }
+                        } )
+                       
                       ],
                     ),
                   ),
@@ -164,7 +177,7 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
           ),
         ),
       );
-    });
+    
   }
 
   Widget ListDay() {
@@ -183,12 +196,13 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
           return GestureDetector(
             onTap: () {
               print(index.toString());
-              Get.to(() => DetailPage(
-                    lowPrice: data.low,
-                    highPrice: data.high,
-                    openPrice: data.open,
-                    closePrice: data.close,
-                  ));
+              // Get.to(() => DetailPage(
+              //       lowPrice: data.low ?? ''  ,
+              //       highPrice: data.high ?? '',
+              //       openPrice: data.open ?? '',
+              //       closePrice: data.close ?? '',
+              //     ),
+              //     transition: Transition.zoom);
             },
             child: Container(
               width: 104,
@@ -202,7 +216,7 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                         color: dividerLine.withAlpha(150))
                   ]),
               child: ItemListDay(
-                  Time: timestamp, open: data.open, close: data.close),
+                  Time: timestamp, open: data.open ?? '', close: data.close ?? ''),
             ),
           );
         },
@@ -226,15 +240,18 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
           return GestureDetector(
             onTap: () {
               print(index.toString());
-              Get.to(() => NewsDetailPage(
-                  timePublished: newsData[index].timePublished!,
-                  title: newsData[index].title!,
-                  bannerImage: newsData[index].bannerImage!,
-                  publisher: newsData[index].authors![index],
-                  summary: newsData[index].summary!,
-                  url: newsData[index].url!,
-                  setimentScore: newsData[index].overallSentimentScore!,
-                  setimentLabel: newsData[index].overallSentimentLabel!));
+              // Get.to(() => NewsDetailPage(
+              //     timePublished: newsData[index].timePublished ?? '',
+              //     title: newsData[index].title ?? '',
+              //     bannerImage: newsData[index].bannerImage ?? '',
+              //     publisher: newsData[index].authors?[index] ?? 'unknown',
+              //     summary: newsData[index].summary ?? '',
+              //     url: newsData[index].url ?? '',
+              //     setimentScore: newsData[index].overallSentimentScore ?? '',
+              //     setimentLabel: newsData[index].overallSentimentLabel ?? '',
+              //      topic: newsData[index].topics ?? [],
+              //       tickerSentiments: newsData[index].tickerSentiments ?? []),
+              //     transition: Transition.zoom);
             },
             child: Container(
               width: double.infinity,
@@ -249,8 +266,8 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                 ],
               ),
               child: ItemListFeed(
-                title: newsData[index].title!,
-                image: newsData[index].bannerImage!,
+                title: newsData[index].title ?? '',
+                image: newsData[index].bannerImage ?? '',
               ),
             ),
           );

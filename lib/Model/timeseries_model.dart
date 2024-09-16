@@ -1,16 +1,16 @@
 class TimeSeriesData {
-  String open;
-  String high;
-  String low;
-  String close;
-  String volume;
+  String? open;
+  String? high;
+  String? low;
+  String? close;
+  String? volume;
 
   TimeSeriesData({
-    required this.open,
-    required this.high,
-    required this.low,
-    required this.close,
-    required this.volume,
+     this.open,
+     this.high,
+     this.low,
+     this.close,
+     this.volume,
   });
 
   factory TimeSeriesData.fromJson(Map<String, dynamic> json) {

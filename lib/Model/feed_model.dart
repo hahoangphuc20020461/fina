@@ -1,3 +1,4 @@
+import 'package:fina/Model/ticker_sentiments_model.dart';
 import 'package:fina/Model/topics_model.dart';
 
 class FeedData {
@@ -22,6 +23,7 @@ class Feed {
   String? overallSentimentLabel;
   List<String>? authors;
   List<Topics>? topics;
+  List<TickerSentiments>? tickerSentiments;
 
   Feed({
     this.title,
@@ -32,7 +34,8 @@ class Feed {
     this.overallSentimentScore,
     this.summary,
     this.authors,
-    this.topics
+    this.topics,
+    this.tickerSentiments
   });
 
   Feed.fromJson(Map<String, dynamic> json) {
@@ -44,5 +47,6 @@ class Feed {
     overallSentimentLabel = json['overall_sentiment_label'];
     overallSentimentScore = json['overall_sentiment_score'];
     authors = json['authors'];
+    tickerSentiments = json['ticker_sentiment'];
   }
 }
