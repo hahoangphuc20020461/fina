@@ -1,2 +1,5 @@
 const KeyApi = 'O5A2UO2NJACIM4S9';
 const KeyApi2 = '14PN6KDAT1LBDBVO';
+const KeyWeek = 'UP903TFDTVVTXP0W';
+const KeyMonth = 'JN08HX5DTGPJ0NXM';
+const KeyDay = 'NEL8ZEUBCZ8FOJDT';

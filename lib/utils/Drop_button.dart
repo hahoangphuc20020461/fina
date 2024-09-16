@@ -1,5 +1,7 @@
+import 'package:fina/controller/getx_controller.dart';
 import 'package:fina/utils/color.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PopupMenu extends StatefulWidget {
   @override
@@ -7,16 +9,20 @@ class PopupMenu extends StatefulWidget {
 }
 
 class _PopupMenuState extends State<PopupMenu> {
-  String _selectedValue = 'Day'; // Giá trị mặc định
-  final List<String> _options = ['Day', 'Week', 'Month'];
+  String _selectedValue = 'Hour';
+  final stockController = Get.find<StockController>();
+  // Giá trị mặc định
+  final List<String> _options = ['Hour', 'Day', 'Week', 'Month'];
 
   void _handleMenuItemSelected(String value) {
     if (value == "Day") {
-      print('Thien');
+      stockController.finaIndex.value = 'Day';
     } else if (value == "Week") {
-      print('Phuc');
+      stockController.finaIndex.value = 'Week';
+    } else if (value == "Month") {
+      stockController.finaIndex.value = 'Month';
     } else {
-      print("Dev");
+      stockController.finaIndex.value = 'Hour';
     }
     // Thực hiện hành động khi một mục được chọn
 

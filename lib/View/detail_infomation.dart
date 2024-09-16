@@ -1,9 +1,8 @@
-
-
+import 'dart:ui';
 
 import 'package:fina/Config/color.dart';
-import 'package:fina/Controller/api_controller.dart';
 import 'package:fina/View/news_detail_page.dart';
+import 'package:fina/utils/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -24,77 +23,76 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+  Color themColor = Color(0xFF02C39A);
   @override
   Widget build(BuildContext context) {
     List<VBarChartModel> bardata = [
-    VBarChartModel(
-      index: 0,
-      label: "Low",
-      colors: [themColor, themColor],
-      jumlah: 203.33,
-      tooltip: "203.3300",
-      
-    ),
-    VBarChartModel(
-      index: 1,
-      label: "High",
-      colors: [themColor, themColor],
-      jumlah: 203.37,
-      tooltip: "203.3700",
-      
-    ),
-    
-  ];
+      VBarChartModel(
+        index: 0,
+        label: "Low",
+        colors: [themColor, themColor],
+        jumlah: 203.33,
+        tooltip: "203.3300",
+      ),
+      VBarChartModel(
+        index: 1,
+        label: "High",
+        colors: [themColor, themColor],
+        jumlah: 203.37,
+        tooltip: "203.3700",
+      ),
+    ];
     // TODO: implement build
     return Scaffold(
       // appBar: AppBar(
       //   title: Text('Detail'),
       // ),
       backgroundColor: themColor,
-    //   body: SingleChildScrollView(
-    //     child: Column(
-    //       children: [
-    //         SizedBox(
-    //           height: MediaQuery.of(context).size.height * 0.3,
-    //           width: MediaQuery.of(context).size.width,
-    //           child: Container(color: themColor,),
-    //         ),
-    //         ClipRRect(
-    //           borderRadius: BorderRadius.circular(50),
-    //           child: Container(
-                
-    //             height: MediaQuery.of(context).size.height * 0.7,
-    //             width: MediaQuery.of(context).size.width,
-                
-    //             decoration: BoxDecoration(
-    //               color: Colors.white,
-    //               //borderRadius: BorderRadius.circular(50)
-    //               ),
-    //           ),
-    //         ),
-    // //         Center(
-    // //           child: VerticalBarchart(
-    // //   maxX: 204,
-    // //   data: bardata,
-    // //   showLegend: true,
-    // //   legend: [
-    // //     Vlegend(
-    // //       isSquare: false,
-    // //       color: Colors.orange,
-    // //       text: "Fruits",
-    // //     ),
-    // //     // Vlegend(
-    // //     //   isSquare: false,
-    // //     //   color: Colors.teal,
-    // //     //   text: "Vegetables",
-    // //     // )
-    // //   ],
-    // // ),
-    // //         ),
-    //       ],
-    //     ),
-    //   ),
-    body: SingleChildScrollView(
+      // black_color,
+      //   body: SingleChildScrollView(
+      //     child: Column(
+      //       children: [
+      //         SizedBox(
+      //           height: MediaQuery.of(context).size.height * 0.3,
+      //           width: MediaQuery.of(context).size.width,
+      //           child: Container(color: themColor,),
+      //         ),
+      //         ClipRRect(
+      //           borderRadius: BorderRadius.circular(50),
+      //           child: Container(
+
+      //             height: MediaQuery.of(context).size.height * 0.7,
+      //             width: MediaQuery.of(context).size.width,
+
+      //             decoration: BoxDecoration(
+      //               color: Colors.white,
+      //               //borderRadius: BorderRadius.circular(50)
+      //               ),
+      //           ),
+      //         ),
+      // //         Center(
+      // //           child: VerticalBarchart(
+      // //   maxX: 204,
+      // //   data: bardata,
+      // //   showLegend: true,
+      // //   legend: [
+      // //     Vlegend(
+      // //       isSquare: false,
+      // //       color: Colors.orange,
+      // //       text: "Fruits",
+      // //     ),
+      // //     // Vlegend(
+      // //     //   isSquare: false,
+      // //     //   color: Colors.teal,
+      // //     //   text: "Vegetables",
+      // //     // )
+      // //   ],
+      // // ),
+      // //         ),
+      //       ],
+      //     ),
+      //   ),
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
@@ -103,28 +101,31 @@ class _DetailPageState extends State<DetailPage> {
               child: SafeArea(
                 child: Row(
                   children: [
-                    IconButton(onPressed: (){
-                      Get.to(() => NewsDetailPage(), transition: Transition.circularReveal);
-                    }, 
-                    icon: Icon(Icons.arrow_back_ios,
-                    color: Colors.white,
-                    size: 20,)),
+                    IconButton(
+                        onPressed: () {
+                          Get.to(() => NewsDetailPage(),
+                              transition: Transition.circularReveal);
+                        },
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                          size: 20,
+                        )),
                     Spacer(),
-                    Text('Detail',
-                    style: GoogleFonts.poppins(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white
-                    ),
+                    Text(
+                      'Detail',
+                      style: GoogleFonts.poppins(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
                     ),
                     Spacer(flex: 2),
                   ],
                 ),
-                ),
+              ),
               decoration: BoxDecoration(
                 // Màu header
                 color: themColor,
-                
               ),
             ),
             Container(
@@ -144,65 +145,63 @@ class _DetailPageState extends State<DetailPage> {
                   children: [
                     VerticalBarchart(
                       tooltipSize: 70,
-                          maxX: 204,
-                          data: bardata,
-                          showLegend: true,
-                          legend: [
-                            Vlegend(
-                              isSquare: false,
-                              color: themColor,
-                              text: "Rate",
-                            ),
-                            // Vlegend(
-                            //   isSquare: false,
-                            //   color: Colors.teal,
-                            //   text: "Vegetables",
-                            // )
-                          ],
+                      maxX: 204,
+                      data: bardata,
+                      showLegend: true,
+                      legend: [
+                        Vlegend(
+                          isSquare: false,
+                          color: themColor,
+                          text: "Rate",
                         ),
+                        // Vlegend(
+                        //   isSquare: false,
+                        //   color: Colors.teal,
+                        //   text: "Vegetables",
+                        // )
+                      ],
+                    ),
                     Padding(padding: EdgeInsets.all(20)),
                     Row(
                       children: [
                         Padding(padding: EdgeInsets.only(left: 30)),
-                        Text('Open Price: ',
-                        style: GoogleFonts.poppins(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: themColor
-                        ),
+                        Text(
+                          'Open Price: ',
+                          style: GoogleFonts.poppins(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: themColor),
                         ),
                       ],
                     ),
                     Padding(padding: EdgeInsets.all(20)),
-                    Text('10',
-                        style: GoogleFonts.poppins(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: themColor
-                        ),
-                        ),
-                        
-                        Row(
+                    Text(
+                      '10',
+                      style: GoogleFonts.poppins(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: themColor),
+                    ),
+                    Row(
                       children: [
                         Padding(padding: EdgeInsets.only(left: 30)),
-                        Text('Close Price: ',
-                        style: GoogleFonts.poppins(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: themColor
-                        ),
+                        Text(
+                          'Close Price: ',
+                          style: GoogleFonts.poppins(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: themColor),
                         ),
                       ],
                     ),
                     Padding(padding: EdgeInsets.all(20)),
-                    Text('10',
-                    
-                        style: GoogleFonts.poppins(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: themColor
-                        ),
-                        ),
+                    Text(
+                      '10',
+                      style: GoogleFonts.poppins(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: themColor),
+                    ),
                   ],
                 ),
               ),
@@ -213,5 +212,3 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 }
-
- 

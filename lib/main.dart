@@ -1,4 +1,4 @@
-
+import 'package:fina/View/begin_page.dart';
 import 'package:fina/screen/home_screen.dart';
 import 'package:fina/screen/home_second_screen.dart';
 import 'package:fina/screen/stock_screen.dart';
@@ -18,9 +18,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Stock App',
-      home: HomeSecondScreen(),
+      home: BeginPage(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
-

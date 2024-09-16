@@ -29,27 +29,29 @@ class _StockPageState extends State<StockPage> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return CircularProgressIndicator(); // Hiển thị vòng tròn chờ khi dữ liệu đang tải
             } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}'); // Hiển thị lỗi nếu xảy ra
+              return Text(
+                  'Error: ${snapshot.error}'); // Hiển thị lỗi nếu xảy ra
             } else if (snapshot.hasData) {
               return ListView.builder(
-                itemCount: snapshot.data?.timeSeries.length,
-                itemBuilder: (BuildContext context, int index) { 
-                  String timeKey = snapshot.data!.timeSeries.keys.elementAt(index);
-                  TimeSeriesData data = snapshot.data!.timeSeries[timeKey]!;
+                itemCount: snapshot.data?.timeSeries!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  String timeKey =
+                      snapshot.data!.timeSeries!.keys.elementAt(index);
+                  TimeSeriesData data = snapshot.data!.timeSeries![timeKey]!;
                   return ListTile(
-                  title: Text('Time: $timeKey'),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Open: ${data.open}'),
-                      Text('High: ${data.high}'),
-                      Text('Low: ${data.low}'),
-                      Text('Close: ${data.close}'),
-                      Text('Volume: ${data.volume}'),
-                    ],
-                  ),
-                );
-                 },
+                    title: Text('Time: $timeKey'),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Open: ${data.open}'),
+                        Text('High: ${data.high}'),
+                        Text('Low: ${data.low}'),
+                        Text('Close: ${data.close}'),
+                        Text('Volume: ${data.volume}'),
+                      ],
+                    ),
+                  );
+                },
               );
               // return Column(
               //   children: [
