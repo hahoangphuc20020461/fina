@@ -1,10 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:fina/Config/color.dart';
-import 'package:fina/View/Widget/Drop_button.dart';
+import 'package:fina/Model/feed_model.dart';
 import 'package:fina/View/detail_infomation.dart';
-import 'package:fina/View/news_detail_page.dart';
 import 'package:fina/controller/getx_controller.dart';
+import 'package:fina/utils/Drop_button.dart';
+import 'package:fina/utils/color.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,18 +18,14 @@ class HomeSecondScreen extends StatefulWidget {
 }
 
 class _HomeSecondScreenState extends State<HomeSecondScreen> {
-  late APIController apiController = Get.put(APIController());
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
+  final stockController = Get.find<StockController>();
   @override
   Widget build(BuildContext context) {
-    
-      return Scaffold(
-        body: Container(
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+
           color: themColor,
           child:
               // ListView(
@@ -55,7 +52,9 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                                   color: white_color),
                             ),
                             SizedBox(
-                              height: 60,
+
+                              height: 30,
+
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,6 +78,13 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                                             fontWeight: FontWeight.bold)),
                                   ],
                                 ),
+
+                                Container(
+                                  height: 30,
+                                  width: 2,
+                                  color: white_color,
+                                ),
+
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -98,25 +104,27 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                                             fontWeight: FontWeight.bold)),
                                   ],
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Last Updates',
-                                      style: TextStyle(
-                                          color: white_color,
-                                          fontSize: 12,
-                                          decoration: TextDecoration.none),
-                                    ),
-                                    Text(
-                                        // stockController.getMetaData().symbol!.toString(),
-                                        'Now',
-                                        style: GoogleFonts.poppins(
-                                            color: white_color,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold)),
-                                  ],
-                                ),
+
+                                // Column(
+                                //   crossAxisAlignment: CrossAxisAlignment.start,
+                                //   children: [
+                                //     Text(
+                                //       'Last Updates',
+                                //       style: TextStyle(
+                                //           color: white_color,
+                                //           fontSize: 12,
+                                //           decoration: TextDecoration.none),
+                                //     ),
+                                //     Text(
+                                //         // stockController.getMetaData().symbol!.toString(),
+                                //         'Now',
+                                //         style: GoogleFonts.poppins(
+                                //             color: white_color,
+                                //             fontSize: 18,
+                                //             fontWeight: FontWeight.bold)),
+                                //   ],
+                                // ),
+
                               ],
                             ),
                           ],
@@ -133,41 +141,67 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                           topLeft: Radius.circular(50),
                           topRight: Radius.circular(50))),
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+
+                    padding: EdgeInsets.only(top: 10, left: 15, right: 15),
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 30),
+                          padding: const EdgeInsets.only(top: 10),
+
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              DropdownStyledExample(),
+
+                              PopupMenu(),
+
                             ],
                           ),
                         ),
                         SizedBox(
                           height: 10,
                         ),
-                        Obx(() {
-                          if(!apiController.isLoading.value) {
-                           return Center(child: CircularProgressIndicator());
-                          } else {
-                           return ListDay();
-                          }
-                        } ),
-                        
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Obx(() {
-                          if(!apiController.isLoading.value) {
-                           return Center(child: CircularProgressIndicator());
-                          } else {
-                           return ListFeed();
-                          }
-                        } )
-                       
+
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.65,
+                          child: ListView(
+                            scrollDirection: Axis.vertical,
+                            children: [
+                              Obx(() {
+                                if (stockController.isLoading.value) {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                } else {
+                                  return ListDay();
+                                }
+                              }),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text("New Feed",
+                                      style: GoogleFonts.poppins(
+                                          color: themColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Obx(() {
+                                if (stockController.isLoading.value) {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                } else {
+                                  return ListFeed();
+                                }
+                              })
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -176,14 +210,23 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
             ),
           ),
         ),
-      );
-    
+      ),
+    );
   }
 
   Widget ListDay() {
-    final timeSeries = apiController.stockData.value!.timeSeries;
+    // final timeSeries = stockController.stockData.value!.timeSeries;
+    var timeSeries;
+    if (stockController.finaIndex.value == 'Hour') {
+      timeSeries = stockController.stockData.value!.timeSeries;
+    } else if (stockController.finaIndex.value == 'Week') {
+      timeSeries = stockController.stockWeekData.value!.timeSeries;
+    } else if (stockController.finaIndex.value == 'Month') {
+      timeSeries = stockController.stockMonthData.value!.timeSeries;
+    } else {
+      timeSeries = stockController.stockDayData.value!.timeSeries;
+    }
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
       height: 160,
       child: ListView.builder(
         shrinkWrap: true,
@@ -195,14 +238,9 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
           final data = timeEntry.value;
           return GestureDetector(
             onTap: () {
-              print(index.toString());
-              // Get.to(() => DetailPage(
-              //       lowPrice: data.low ?? ''  ,
-              //       highPrice: data.high ?? '',
-              //       openPrice: data.open ?? '',
-              //       closePrice: data.close ?? '',
-              //     ),
-              //     transition: Transition.zoom);
+
+              Get.to(DetailPage());
+
             },
             child: Container(
               width: 104,
@@ -216,7 +254,9 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                         color: dividerLine.withAlpha(150))
                   ]),
               child: ItemListDay(
-                  Time: timestamp, open: data.open ?? '', close: data.close ?? ''),
+
+                  Time: timestamp, open: data.open, close: data.close),
+
             ),
           );
         },
@@ -225,36 +265,29 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
   }
 
   Widget ListFeed() {
-    var newsData = apiController.getfeedData().feedList;
+
+    var a = stockController.getfeedData().feedList;
     return Container(
-      height: MediaQuery.of(context).size.height * 0.45,
-      padding: EdgeInsets.only(top: 20, bottom: 5),
+      height: MediaQuery.of(context).size.height * 0.6,
+      // padding: EdgeInsets.only(top: 20, bottom: 5),
       decoration: BoxDecoration(
-          color: dividerLine.withAlpha(150),
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+        color: dividerLine.withAlpha(150),
+        // borderRadius: BorderRadius.only(
+        //     topLeft: Radius.circular(20), topRight: Radius.circular(20))
+      ),
       child: ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: apiController.getfeedData().feedList.length,
+        itemCount: stockController.getfeedData().feedList.length,
+
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
               print(index.toString());
-              // Get.to(() => NewsDetailPage(
-              //     timePublished: newsData[index].timePublished ?? '',
-              //     title: newsData[index].title ?? '',
-              //     bannerImage: newsData[index].bannerImage ?? '',
-              //     publisher: newsData[index].authors?[index] ?? 'unknown',
-              //     summary: newsData[index].summary ?? '',
-              //     url: newsData[index].url ?? '',
-              //     setimentScore: newsData[index].overallSentimentScore ?? '',
-              //     setimentLabel: newsData[index].overallSentimentLabel ?? '',
-              //      topic: newsData[index].topics ?? [],
-              //       tickerSentiments: newsData[index].tickerSentiments ?? []),
-              //     transition: Transition.zoom);
+
             },
             child: Container(
-              width: double.infinity,
+              width: MediaQuery.of(context).size.width * 0.5,
+
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
@@ -266,8 +299,10 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                 ],
               ),
               child: ItemListFeed(
-                title: newsData[index].title ?? '',
-                image: newsData[index].bannerImage ?? '',
+
+                title: a[index].title ?? '',
+                image: a[index].bannerImage ?? '',
+
               ),
             ),
           );
@@ -293,7 +328,10 @@ class ItemListDay extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
-        border: Border.all(color: themColor, width: 1),
+
+        border: Border.all(width: 1),
+        color: themColor,
+
         borderRadius: BorderRadius.circular(10),
       ),
       padding: EdgeInsets.all(4),
@@ -307,8 +345,14 @@ class ItemListDay extends StatelessWidget {
               children: [
                 Text(
                   'Time',
+
+                  style: TextStyle(color: white_color),
                 ),
-                Text(Time),
+                Text(
+                  Time,
+                  style: TextStyle(color: white_color),
+                ),
+
               ],
             ),
           ),
@@ -320,11 +364,13 @@ class ItemListDay extends StatelessWidget {
               children: [
                 Text(
                   'Open Price: ' + open,
-                  style: TextStyle(fontSize: 12, color: black_color),
+
+                  style: TextStyle(fontSize: 12, color: white_color),
                 ),
                 Text(
                   'Close Price: ' + close,
-                  style: TextStyle(fontSize: 12, color: black_color),
+                  style: TextStyle(fontSize: 12, color: white_color),
+
                 )
               ],
             ),
@@ -346,9 +392,17 @@ class ItemListFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+
+      margin: EdgeInsets.only(bottom: 5),
+      decoration: BoxDecoration(
+        border: Border.all(width: 1),
+        color: themColor,
+        borderRadius: BorderRadius.circular(10),
+      ),
       width: double.infinity,
       height: 60,
-      padding: EdgeInsets.only(top: 4),
+      padding: EdgeInsets.only(top: 4, bottom: 4),
+
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -364,15 +418,24 @@ class ItemListFeed extends StatelessWidget {
           SizedBox(
             width: 10,
           ),
-          SizedBox(
-            child: Text(
-              title,
-              softWrap: true,
-              maxLines: 1, // Giới hạn số dòng (ở đây là 1 dòng)
-              overflow: TextOverflow.ellipsis,
 
-              style: TextStyle(fontSize: 12, color: black_color),
-            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            // mainAxisSize: MainAxisSize.max,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: Text(
+                  title,
+                  softWrap: true,
+                  maxLines: 2, // Giới hạn số dòng (ở đây là 1 dòng)
+                  overflow: TextOverflow.ellipsis,
+
+                  style: TextStyle(fontSize: 12, color: white_color),
+                ),
+              ),
+            ],
+
           )
         ],
       ),

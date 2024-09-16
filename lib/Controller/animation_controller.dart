@@ -1,13 +1,15 @@
+
 import 'package:fina/View/home_second_screen.dart';
 import 'package:fina/View/test_page.dart';
 import 'package:flutter/material.dart';
+
+import 'package:flutter/animation.dart';
+
 import 'package:get/get.dart';
 
 // ignore: deprecated_member_use
 class AnimationControllerX extends GetxController with SingleGetTickerProviderMixin {
   late AnimationController animationController;
-  late Animation<double> animation;
-  late AnimationController animationControllerNextPage;
 
   @override
   void onInit() {

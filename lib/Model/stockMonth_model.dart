@@ -1,19 +1,18 @@
 import 'package:fina/Model/metadata_model.dart';
 import 'package:fina/Model/timeseries_model.dart';
 
-class StockData {
+class StockMonthData {
   final MetaData? metaData;
   final Map<String, TimeSeriesData>? timeSeries;
 
-  StockData({this.metaData, this.timeSeries});
+  StockMonthData({this.metaData, this.timeSeries});
 
-  factory StockData.fromJson(Map<String, dynamic> json) {
-    return StockData(
+  factory StockMonthData.fromJson(Map<String, dynamic> json) {
+    return StockMonthData(
       metaData: MetaData.fromJson(json['Meta Data']),
-      timeSeries: (json['Time Series (5min)'] as Map<String, dynamic>).map(
+      timeSeries: (json['Monthly Time Series'] as Map<String, dynamic>).map(
         (key, value) => MapEntry(key, TimeSeriesData.fromJson(value)),
       ),
     );
   }
 }
-
