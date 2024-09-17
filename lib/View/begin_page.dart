@@ -15,34 +15,30 @@ class BeginPage extends StatefulWidget {
 
 class _BeginPageState extends State<BeginPage> {
   @override
-
-   Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     // Khởi tạo SplashController
-    //final BeginController controller = Get.put(BeginController());
-     final animationControllerX = Get.put(AnimationControllerX());
+    final BeginController controller = Get.put(BeginController());
+    final animationControllerX = Get.put(AnimationControllerX());
 
     return Scaffold(
       body: GetBuilder(
-        builder: (AnimationControllerX controller) { 
-          return FadeTransition(opacity: controller.animation,
-          child: Container(
-          color: themColor,  // Màu xanh của màn hình Splash
-          child: Center(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.2,
-              width: MediaQuery.of(context).size.width * 0.2,
-              child: Image.asset(
-                'assets/finance-48.png',
-              ),
-            )
-          ),
-        ),);
-         },
-        
+        builder: (AnimationControllerX xcontroller) {
+          return FadeTransition(
+            opacity: xcontroller.animationController,
+            child: Container(
+              color: themColor, // Màu xanh của màn hình Splash
+              child: Center(
+                  child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: Image.asset(
+                  'assets/finance-48.png',
+                ),
+              )),
+            ),
+          );
+        },
       ),
     );
   }
 }
-
-
-
