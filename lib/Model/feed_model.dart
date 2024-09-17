@@ -1,7 +1,6 @@
-
+import 'package:fina/Model/tickerSentiments_model.dart';
 import 'package:fina/Model/ticker_sentiments_model.dart';
 import 'package:fina/Model/topics_model.dart';
-
 
 class FeedData {
   List<Feed> feedList;
@@ -20,14 +19,12 @@ class Feed {
   String? url;
   String? timePublished;
   String? bannerImage;
-
   String? summary;
-  String? overallSentimentScore;
+  double? overallSentimentScore;
   String? overallSentimentLabel;
   List<String>? authors;
   List<Topics>? topics;
   List<TickerSentiments>? tickerSentiments;
-
 
   Feed({
     this.title,
@@ -39,20 +36,23 @@ class Feed {
     this.summary,
     this.authors,
     this.topics,
-    this.tickerSentiments
-
   });
 
-  Feed.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    url = json['url'];
-    timePublished = json['time_published'];
-    summary = json['summary'];
-    bannerImage = json['banner_image'];
-    overallSentimentLabel = json['overall_sentiment_label'];
-    overallSentimentScore = json['overall_sentiment_score'];
-    authors = json['authors'];
-    tickerSentiments = json['ticker_sentiment'];
-
+  factory Feed.fromJson(Map<String, dynamic> json) {
+    return Feed(
+      title: json["title"],
+      url: json["url"],
+      timePublished: json["time_published"],
+      authors: json["authors"] == null
+          ? []
+          : List<String>.from(json["authors"]!.map((x) => x)),
+      summary: json["summary"],
+      bannerImage: json["banner_image"],
+      topics: json["topics"] == null
+          ? []
+          : List<Topics>.from(json["topics"]!.map((x) => Topics.fromJson(x))),
+      overallSentimentScore: json["overall_sentiment_score"],
+      overallSentimentLabel: json["overall_sentiment_label"],
+    );
   }
 }

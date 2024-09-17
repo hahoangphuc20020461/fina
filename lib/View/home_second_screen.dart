@@ -18,14 +18,12 @@ class HomeSecondScreen extends StatefulWidget {
 }
 
 class _HomeSecondScreenState extends State<HomeSecondScreen> {
-
   final stockController = Get.find<StockController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Container(
-
           color: themColor,
           child:
               // ListView(
@@ -52,9 +50,7 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                                   color: white_color),
                             ),
                             SizedBox(
-
                               height: 30,
-
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,7 +120,6 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                                 //             fontWeight: FontWeight.bold)),
                                 //   ],
                                 // ),
-
                               ],
                             ),
                           ],
@@ -141,27 +136,22 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                           topLeft: Radius.circular(50),
                           topRight: Radius.circular(50))),
                   child: Padding(
-
                     padding: EdgeInsets.only(top: 10, left: 15, right: 15),
                     child: Column(
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
-
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-
                               PopupMenu(),
-
                             ],
                           ),
                         ),
                         SizedBox(
                           height: 10,
                         ),
-
                         Container(
                           height: MediaQuery.of(context).size.height * 0.65,
                           child: ListView(
@@ -238,9 +228,7 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
           final data = timeEntry.value;
           return GestureDetector(
             onTap: () {
-
-              Get.to(DetailPage());
-
+              // Get.to(DetailPage());
             },
             child: Container(
               width: 104,
@@ -254,9 +242,7 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                         color: dividerLine.withAlpha(150))
                   ]),
               child: ItemListDay(
-
                   Time: timestamp, open: data.open, close: data.close),
-
             ),
           );
         },
@@ -265,7 +251,6 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
   }
 
   Widget ListFeed() {
-
     var a = stockController.getfeedData().feedList;
     return Container(
       height: MediaQuery.of(context).size.height * 0.6,
@@ -278,16 +263,13 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
       child: ListView.builder(
         scrollDirection: Axis.vertical,
         itemCount: stockController.getfeedData().feedList.length,
-
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
               print(index.toString());
-
             },
             child: Container(
               width: MediaQuery.of(context).size.width * 0.5,
-
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
@@ -299,10 +281,8 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                 ],
               ),
               child: ItemListFeed(
-
                 title: a[index].title ?? '',
                 image: a[index].bannerImage ?? '',
-
               ),
             ),
           );
@@ -328,10 +308,8 @@ class ItemListDay extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
-
         border: Border.all(width: 1),
         color: themColor,
-
         borderRadius: BorderRadius.circular(10),
       ),
       padding: EdgeInsets.all(4),
@@ -345,14 +323,12 @@ class ItemListDay extends StatelessWidget {
               children: [
                 Text(
                   'Time',
-
                   style: TextStyle(color: white_color),
                 ),
                 Text(
                   Time,
                   style: TextStyle(color: white_color),
                 ),
-
               ],
             ),
           ),
@@ -364,13 +340,11 @@ class ItemListDay extends StatelessWidget {
               children: [
                 Text(
                   'Open Price: ' + open,
-
                   style: TextStyle(fontSize: 12, color: white_color),
                 ),
                 Text(
                   'Close Price: ' + close,
                   style: TextStyle(fontSize: 12, color: white_color),
-
                 )
               ],
             ),
@@ -392,7 +366,6 @@ class ItemListFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-
       margin: EdgeInsets.only(bottom: 5),
       decoration: BoxDecoration(
         border: Border.all(width: 1),
@@ -402,7 +375,6 @@ class ItemListFeed extends StatelessWidget {
       width: double.infinity,
       height: 60,
       padding: EdgeInsets.only(top: 4, bottom: 4),
-
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -418,7 +390,6 @@ class ItemListFeed extends StatelessWidget {
           SizedBox(
             width: 10,
           ),
-
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             // mainAxisSize: MainAxisSize.max,
@@ -435,7 +406,6 @@ class ItemListFeed extends StatelessWidget {
                 ),
               ),
             ],
-
           )
         ],
       ),
