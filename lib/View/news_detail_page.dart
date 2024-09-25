@@ -27,7 +27,7 @@ class NewsDetailPage extends StatefulWidget {
   final String timePublished;
   final String title;
   final String bannerImage;
-  final String publisher;
+  final List<String> publisher;
   final String summary;
   final String url;
   final String setimentScore;
@@ -35,13 +35,11 @@ class NewsDetailPage extends StatefulWidget {
   final List<Topics> topic;
   final List<TickerSentiments> tickerSentiments;
 
-
   @override
   State<NewsDetailPage> createState() => _NewsDetailPageState();
 }
 
 class _NewsDetailPageState extends State<NewsDetailPage> {
-
   AnimationControllerX animationControllerX = Get.put(AnimationControllerX());
   @override
   Widget build(BuildContext context) {
@@ -56,23 +54,17 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
           Row(
             children: [
               SafeArea(
-
-                child: GetBuilder(
-                  builder: (GetxController controller) {
-                    return IconButton(
-                        onPressed: () {
-                          Get.off(() => HomeSecondScreen(),
-                              transition: Transition.leftToRightWithFade);
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                          size: 30,
-                        ));
-                  },
-                ),
+                child: IconButton(
+                    onPressed: () {
+                      Get.off(() => HomeSecondScreen(),
+                          transition: Transition.leftToRightWithFade);
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_ios,
+                      color: themColor,
+                      size: 30,
+                    )),
               ),
-
             ],
           ),
           Container(
@@ -81,9 +73,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
             width: MediaQuery.of(context).size.width * 0.8,
             decoration: BoxDecoration(
               image: DecorationImage(
-
                   image: NetworkImage(widget.bannerImage), fit: BoxFit.fill),
-
               borderRadius: BorderRadius.circular(30),
             ),
           ),
@@ -92,14 +82,12 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
             child: Row(
               children: [
                 Text(
-
                   widget.title,
                   softWrap: true,
                   style: GoogleFonts.poppins(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                       color: Colors.black87),
-
                 ),
               ],
             ),
@@ -108,7 +96,6 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
             padding: const EdgeInsets.only(left: 8.0),
             child: Row(
               children: [
-
                 Icon(
                   Icons.query_builder_outlined,
                   color: themColor,
@@ -122,23 +109,21 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
               ],
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Row(
               children: [
-
                 Icon(
                   Icons.account_circle_outlined,
                   color: themColor,
                 ),
                 Padding(padding: EdgeInsets.only(left: 12)),
-                Text(
-                  widget.publisher,
-                  style:
-                      GoogleFonts.poppins(fontSize: 12, color: Colors.black87),
-                )
-
+                for (int i = 0; i < widget.publisher.length; i++)
+                  Text(
+                    widget.publisher[i],
+                    style: GoogleFonts.poppins(
+                        fontSize: 12, color: Colors.black87),
+                  )
               ],
             ),
           ),
@@ -146,7 +131,6 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
             padding: const EdgeInsets.only(left: 8.0),
             child: Row(
               children: [
-
                 Icon(
                   Icons.language_outlined,
                   color: themColor,
@@ -157,12 +141,10 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                   style:
                       GoogleFonts.poppins(fontSize: 12, color: Colors.black87),
                 )
-
               ],
             ),
           ),
           Padding(
-
             padding: const EdgeInsets.fromLTRB(8, 12, 8, 10),
             child: Row(
               children: [
@@ -173,13 +155,11 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                       fontWeight: FontWeight.w500,
                       color: Colors.black87),
                 )
-
               ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
-
             child: Row(
               children: [
                 Icon(
@@ -215,22 +195,24 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
           Padding(padding: EdgeInsets.all(8)),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: DataTable(columns: [
+            child: DataTable(
+              columns: [
                 DataColumn(label: Text('Ticker')),
-              DataColumn(label: Text('Relevance Score')),
-              DataColumn(label: Text('Sentiment Score')),
-              DataColumn(label: Text('Sentiment Label')),
-              ], rows: widget.tickerSentiments.map((item) {
-              return DataRow(
-                cells: [
-                  DataCell(Text(item.ticker!)),
-                  DataCell(Text(item.relevanceScore!)),
-                  DataCell(Text(item.tickerSentimentsScore!)),
-                  DataCell(Text(item.tickerSentimentsLabel!)),
-                ],
-              );
-            }).toList(),),
-
+                DataColumn(label: Text('Relevance Score')),
+                DataColumn(label: Text('Sentiment Score')),
+                DataColumn(label: Text('Sentiment Label')),
+              ],
+              rows: widget.tickerSentiments.map((item) {
+                return DataRow(
+                  cells: [
+                    DataCell(Text(item.ticker!)),
+                    DataCell(Text(item.relevanceScore!)),
+                    DataCell(Text(item.tickerSentimentsScore!)),
+                    DataCell(Text(item.tickerSentimentsLabel!)),
+                  ],
+                );
+              }).toList(),
+            ),
           ),
           Divider(
             thickness: 1,
@@ -239,7 +221,6 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
             padding: const EdgeInsets.only(left: 8.0),
             child: Row(
               children: [
-
                 Text(
                   'Related Topic:',
                   style: GoogleFonts.poppins(
@@ -247,13 +228,11 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                       fontWeight: FontWeight.w500,
                       color: Colors.black87),
                 )
-
               ],
             ),
           ),
           Expanded(
             child: ListView.builder(
-
                 itemCount: widget.topic.length,
                 itemBuilder: (BuildContext, int index) {
                   return ListTile(
@@ -279,4 +258,3 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
     );
   }
 }
-

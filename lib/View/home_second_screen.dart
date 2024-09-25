@@ -2,6 +2,7 @@
 
 import 'package:fina/Model/feed_model.dart';
 import 'package:fina/View/detail_infomation.dart';
+import 'package:fina/View/news_detail_page.dart';
 import 'package:fina/controller/getx_controller.dart';
 import 'package:fina/utils/Drop_button.dart';
 import 'package:fina/utils/color.dart';
@@ -22,24 +23,22 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: themColor,
-          child:
-              // ListView(
-              //   scrollDirection: Axis.vertical,
-              //   children: [],
-              // )
-              Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
+      backgroundColor: themColor,
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              child: SafeArea(
+                child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Container(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: double.infinity,
                     child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20),
+                        padding: EdgeInsets.only(bottom: 10),
                         child: Column(
                           children: [
                             Text(
@@ -53,152 +52,137 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
                               height: 30,
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Symbol',
-                                      style: TextStyle(
-                                          color: white_color,
-                                          fontSize: 12,
-                                          decoration: TextDecoration.none),
-                                    ),
-                                    Text(
-                                        // stockController.getMetaData().symbol!.toString(),
-                                        'IBM',
-                                        style: GoogleFonts.poppins(
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.35,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Symbol',
+                                        style: TextStyle(
                                             color: white_color,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold)),
-                                  ],
+                                            fontSize: 12,
+                                            decoration: TextDecoration.none),
+                                      ),
+                                      Text(
+                                          // stockController.getMetaData().symbol!.toString(),
+                                          'IBM  ',
+                                          style: GoogleFonts.poppins(
+                                              color: white_color,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
                                 ),
-
                                 Container(
                                   height: 30,
                                   width: 2,
                                   color: white_color,
                                 ),
-
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Time Zone',
-                                      style: TextStyle(
-                                          color: white_color,
-                                          fontSize: 12,
-                                          decoration: TextDecoration.none),
-                                    ),
-                                    Text(
-                                        // stockController.getMetaData().timeZone!.toString()
-                                        'US',
-                                        style: GoogleFonts.poppins(
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.35,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Time Zone',
+                                        style: TextStyle(
                                             color: white_color,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold)),
-                                  ],
+                                            fontSize: 12,
+                                            decoration: TextDecoration.none),
+                                      ),
+                                      Text(
+                                          stockController.stockData.value!
+                                              .metaData!.timeZone
+                                              .toString(),
+                                          style: GoogleFonts.poppins(
+                                              color: white_color,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
                                 ),
-
-                                // Column(
-                                //   crossAxisAlignment: CrossAxisAlignment.start,
-                                //   children: [
-                                //     Text(
-                                //       'Last Updates',
-                                //       style: TextStyle(
-                                //           color: white_color,
-                                //           fontSize: 12,
-                                //           decoration: TextDecoration.none),
-                                //     ),
-                                //     Text(
-                                //         // stockController.getMetaData().symbol!.toString(),
-                                //         'Now',
-                                //         style: GoogleFonts.poppins(
-                                //             color: white_color,
-                                //             fontSize: 18,
-                                //             fontWeight: FontWeight.bold)),
-                                //   ],
-                                // ),
                               ],
                             ),
                           ],
                         )),
                   ),
                 ),
-                Expanded(
-                    child: Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: white_color,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(50),
-                          topRight: Radius.circular(50))),
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 10, left: 15, right: 15),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              PopupMenu(),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.65,
-                          child: ListView(
-                            scrollDirection: Axis.vertical,
-                            children: [
-                              Obx(() {
-                                if (stockController.isLoading.value) {
-                                  return Center(
-                                      child: CircularProgressIndicator());
-                                } else {
-                                  return ListDay();
-                                }
-                              }),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text("New Feed",
-                                      style: GoogleFonts.poppins(
-                                          color: themColor,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Obx(() {
-                                if (stockController.isLoading.value) {
-                                  return Center(
-                                      child: CircularProgressIndicator());
-                                } else {
-                                  return ListFeed();
-                                }
-                              })
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ))
-              ],
+              ),
             ),
-          ),
+            Container(
+              height: MediaQuery.of(context).size.height,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: white_color,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50))),
+              child: Padding(
+                padding: EdgeInsets.only(top: 10, left: 15, right: 15),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          PopupMenu(),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: ListView(
+                        scrollDirection: Axis.vertical,
+                        children: [
+                          Obx(() {
+                            if (stockController.isLoading.value) {
+                              return Center(child: CircularProgressIndicator());
+                            } else {
+                              return ListDay();
+                            }
+                          }),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text("New Feed",
+                                  style: GoogleFonts.poppins(
+                                      color: themColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Obx(() {
+                            if (stockController.isLoading.value) {
+                              return Center(child: CircularProgressIndicator());
+                            } else {
+                              return ListFeed();
+                            }
+                          })
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -253,7 +237,7 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
   Widget ListFeed() {
     var a = stockController.getfeedData().feedList;
     return Container(
-      height: MediaQuery.of(context).size.height * 0.6,
+      height: MediaQuery.of(context).size.height,
       // padding: EdgeInsets.only(top: 20, bottom: 5),
       decoration: BoxDecoration(
         color: dividerLine.withAlpha(150),
@@ -266,7 +250,26 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              print(index.toString());
+              Get.to(() => NewsDetailPage(
+                    timePublished: a[index].timePublished ?? '',
+                    title: a[index].title ?? '',
+                    bannerImage: a[index].bannerImage ?? '',
+                    summary: a[index].summary ?? '',
+                    url: a[index].url ?? '',
+                    setimentScore: a[index].overallSentimentScore.toString(),
+                    setimentLabel: a[index].overallSentimentLabel ?? '',
+                    publisher: a[index].authors ?? [],
+                    topic: a[index].topics ?? [],
+                    tickerSentiments: a[index].tickerSentiments ?? [],
+                  ));
+              // print(a[index].timePublished);
+              // print(a[index].title);
+              // print(a[index].bannerImage);
+              // print(a[index].summary);
+              // print(a[index].url);
+              // print(a[index].overallSentimentScore.toString());
+              // print(a[index].overallSentimentLabel);
+              // print(a[index].tickerSentiments!.length);
             },
             child: Container(
               width: MediaQuery.of(context).size.width * 0.5,

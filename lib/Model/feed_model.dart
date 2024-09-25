@@ -1,4 +1,3 @@
-import 'package:fina/Model/tickerSentiments_model.dart';
 import 'package:fina/Model/ticker_sentiments_model.dart';
 import 'package:fina/Model/topics_model.dart';
 
@@ -26,17 +25,17 @@ class Feed {
   List<Topics>? topics;
   List<TickerSentiments>? tickerSentiments;
 
-  Feed({
-    this.title,
-    this.url,
-    this.timePublished,
-    this.bannerImage,
-    this.overallSentimentLabel,
-    this.overallSentimentScore,
-    this.summary,
-    this.authors,
-    this.topics,
-  });
+  Feed(
+      {this.title,
+      this.url,
+      this.timePublished,
+      this.bannerImage,
+      this.overallSentimentLabel,
+      this.overallSentimentScore,
+      this.summary,
+      this.authors,
+      this.topics,
+      this.tickerSentiments});
 
   factory Feed.fromJson(Map<String, dynamic> json) {
     return Feed(
@@ -53,6 +52,10 @@ class Feed {
           : List<Topics>.from(json["topics"]!.map((x) => Topics.fromJson(x))),
       overallSentimentScore: json["overall_sentiment_score"],
       overallSentimentLabel: json["overall_sentiment_label"],
+      tickerSentiments: json["ticker_sentiment"] == null
+          ? []
+          : List<TickerSentiments>.from(json["ticker_sentiment"]!
+              .map((x) => TickerSentiments.fromJson(x))),
     );
   }
 }
