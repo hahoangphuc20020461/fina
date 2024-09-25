@@ -4,12 +4,11 @@ class TickerSentiments {
   String? tickerSentimentsScore;
   String? tickerSentimentsLabel;
 
-  TickerSentiments({this.ticker,
-   this.relevanceScore,
-   this.tickerSentimentsLabel,
-   this.tickerSentimentsScore
-   });
-
+  TickerSentiments(
+      {this.ticker,
+      this.relevanceScore,
+      this.tickerSentimentsLabel,
+      this.tickerSentimentsScore});
 
   TickerSentiments.fromJson(Map<String, dynamic> json) {
     ticker = json['ticker'];
